@@ -9,21 +9,14 @@ export interface EligibleSummary {
   eligibleCount: number
 }
 
-/** Count entries eligible to win for a giveaway (rule-aware + never won). */
+/** Count entries eligible to win for a giveaway (never won). */
 export async function getEligibleCount(giveawayId: string): Promise<number> {
   const supabase = supabaseAdmin()
 
-  const { data: giveaway } = await supabase
-    .from('giveaways')
-    .select('email_verification')
-    .eq('id', giveawayId)
-    .single()
-  const requiresVerification = giveaway?.email_verification ?? false
-
-  let query = supabase.from('entries').select('email').eq('giveaway_id', giveawayId)
-  if (requiresVerification) query = query.eq('is_verified', true)
-
-  const { data: entries, error } = await query
+  const { data: entries, error } = await supabase
+    .from('entries')
+    .select('email')
+    .eq('giveaway_id', giveawayId)
   if (error) throw new Error(error.message)
 
   const { data: wonRows } = await supabase.from('winners').select('email')

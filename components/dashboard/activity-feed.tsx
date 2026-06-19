@@ -29,7 +29,7 @@ function formatTimeAgo(date: Date): string {
 export function ActivityFeed({ activities }: ActivityFeedProps) {
   return (
     <div className="card-surface p-6">
-      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6">Recent Activity</h3>
+      <h3 className="text-lg font-semibold text-foreground mb-6">Recent Activity</h3>
 
       <div className="space-y-4">
         {activities.map((activity, index) => {
@@ -40,12 +40,12 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
             <div key={activity.id} className="flex gap-4">
               {/* Timeline Line */}
               {!isLast && (
-                <div className="absolute left-[calc(50%+20px)] top-[calc(100%+8px)] w-0.5 h-8 bg-gradient-to-b from-slate-200 dark:from-white/10 to-transparent" />
+                <div className="absolute left-[calc(50%+20px)] top-[calc(100%+8px)] w-0.5 h-8 bg-border to-transparent" />
               )}
 
               {/* Icon Circle */}
               <div className="relative flex-shrink-0">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-sky-500 to-emerald-500 flex items-center justify-center text-white shadow-md shadow-sky-500/20">
+                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
                   <Icon size={18} />
                 </div>
               </div>
@@ -54,10 +54,10 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
               <div className="flex-1 min-w-0 pt-1">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <p className="text-sm font-semibold text-slate-900 dark:text-white">{activity.title}</p>
-                    <p className="text-xs text-muted mt-0.5">{activity.description}</p>
+                    <p className="text-sm font-medium text-foreground">{activity.title}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{activity.description}</p>
                   </div>
-                  <span className="text-xs text-faint whitespace-nowrap flex-shrink-0">
+                  <span className="text-xs text-muted-foreground/70 whitespace-nowrap flex-shrink-0">
                     {formatTimeAgo(activity.timestamp)}
                   </span>
                 </div>
@@ -68,7 +68,7 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
       </div>
 
       {/* View All Link */}
-      <button className="w-full mt-6 py-2 text-sm font-semibold text-sky-600 dark:text-sky-400 hover:text-emerald-500 dark:hover:text-emerald-300 transition-colors text-center border-t border-slate-200/70 dark:border-white/10 pt-6">
+      <button className="w-full mt-6 py-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors text-center border-t border-border pt-6">
         View All Activity
       </button>
     </div>

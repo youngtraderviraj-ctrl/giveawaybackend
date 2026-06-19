@@ -13,24 +13,24 @@ export default async function EntriesPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div>
-        <h1 className="text-4xl font-extrabold mb-2"><span className="text-gradient">Entries</span></h1>
-        <p className="text-muted">View and manage all giveaway entries</p>
+      <div className="flex flex-col gap-2 mb-4 relative z-10">
+        <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60 drop-shadow-sm tracking-tight">Entries</h1>
+        <p className="text-muted-foreground text-lg max-w-2xl">View and manage all giveaway entries</p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="card-surface p-5">
-          <p className="text-xs text-muted font-medium mb-2">Total Entries</p>
-          <p className="text-2xl font-extrabold text-slate-900 dark:text-white">{totalEntries}</p>
+        <div className="card-surface p-5 hover:bg-muted/60 transition-colors">
+          <p className="text-sm text-muted-foreground font-medium mb-2">Total Entries</p>
+          <p className="text-2xl font-bold text-foreground">{totalEntries}</p>
         </div>
-        <div className="card-surface p-5">
-          <p className="text-xs text-muted font-medium mb-2">Verified</p>
-          <p className="text-2xl font-extrabold text-emerald-500">{verifiedEntries}</p>
+        <div className="card-surface p-5 hover:bg-muted/60 transition-colors">
+          <p className="text-sm text-muted-foreground font-medium mb-2">Verified</p>
+          <p className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-chart-2 to-chart-2/70">{verifiedEntries}</p>
         </div>
-        <div className="card-surface p-5">
-          <p className="text-xs text-muted font-medium mb-2">Pending Verification</p>
-          <p className="text-2xl font-extrabold text-amber-500">{unverifiedEntries}</p>
+        <div className="card-surface p-5 hover:bg-muted/60 transition-colors">
+          <p className="text-sm text-muted-foreground font-medium mb-2">Pending Verification</p>
+          <p className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-chart-5 to-chart-5/70">{unverifiedEntries}</p>
         </div>
       </div>
 
@@ -61,13 +61,13 @@ export default async function EntriesPage() {
 
       {/* Giveaway Filter */}
       <div className="flex gap-2 flex-wrap">
-        <button className="px-4 py-2 rounded-full bg-gradient-to-r from-sky-500 to-emerald-500 text-white font-semibold text-sm shadow-md shadow-sky-500/20">
+        <button className="px-4 py-2 rounded-full bg-gradient-to-r from-primary to-primary/80 text-primary-foreground font-medium text-sm shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)] hover:scale-105 transition-all">
           All Giveaways
         </button>
         {giveaways.slice(0, 3).map((giveaway) => (
           <button
             key={giveaway.id}
-            className="px-4 py-2 rounded-full bg-white/60 dark:bg-white/5 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:border-sky-400/50 hover:text-sky-600 dark:hover:text-sky-400 transition-colors text-sm"
+            className="px-4 py-2 rounded-full bg-card/60 backdrop-blur-md text-foreground border border-border/50 hover:border-primary/50 hover:text-primary transition-all text-sm shadow-sm"
           >
             {giveaway.name}
           </button>

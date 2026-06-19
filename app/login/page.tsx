@@ -31,15 +31,15 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="card-surface w-full max-w-sm p-8 space-y-5">
       <div className="flex flex-col items-center gap-3 mb-2">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-emerald-500 shadow-lg shadow-sky-500/30">
-          <Gift className="text-white" size={26} />
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-primary">
+          <Gift className="text-primary-foreground" size={26} />
         </div>
-        <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">Admin Login</h1>
-        <p className="text-sm text-muted">Sign in to manage your giveaways</p>
+        <h1 className="text-xl font-semibold text-foreground">Admin Login</h1>
+        <p className="text-sm text-muted-foreground">Sign in to manage your giveaways</p>
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-1.5">Email</label>
+        <label className="block text-sm font-medium text-foreground mb-1.5">Email</label>
         <input
           type="email"
           required
@@ -51,7 +51,7 @@ function LoginForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-1.5">Password</label>
+        <label className="block text-sm font-medium text-foreground mb-1.5">Password</label>
         <input
           type="password"
           required
@@ -62,7 +62,7 @@ function LoginForm() {
         />
       </div>
 
-      {error && <p className="text-sm font-medium text-rose-500">{error}</p>}
+      {error && <p className="text-sm font-medium text-destructive">{error}</p>}
 
       <button type="submit" disabled={isPending} className="btn-primary w-full justify-center py-3">
         {isPending ? <Loader2 size={18} className="animate-spin" /> : <Lock size={18} />}

@@ -15,29 +15,29 @@ export default async function GiveawayPage() {
     .maybeSingle()
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 px-4 py-12">
+    <div className="min-h-screen bg-background px-4 py-12">
       <div className="mx-auto max-w-xl">
         {giveaway ? (
           <>
             <div className="text-center mb-8">
-              <h1 className="text-4xl font-extrabold mb-3">
-                <span className="text-gradient">{giveaway.name}</span>
+              <h1 className="text-3xl font-bold mb-3 text-foreground">
+                {giveaway.name}
               </h1>
               {giveaway.description && (
-                <p className="text-muted">{giveaway.description}</p>
+                <p className="text-muted-foreground">{giveaway.description}</p>
               )}
             </div>
             <EntryForm giveawayId={giveaway.id} prize={giveaway.prize} />
           </>
         ) : (
           <div className="card-surface p-10 text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-500/10">
-              <Gift className="text-slate-400" size={32} />
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+              <Gift className="text-muted-foreground" size={32} />
             </div>
-            <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-2">
+            <h2 className="text-xl font-semibold text-foreground mb-2">
               No active giveaway right now
             </h2>
-            <p className="text-muted">
+            <p className="text-muted-foreground">
               Entries are currently closed. Check back soon for the next giveaway!
             </p>
           </div>

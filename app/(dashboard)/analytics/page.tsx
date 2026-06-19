@@ -14,49 +14,49 @@ export default async function AnalyticsPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div>
-        <h1 className="text-4xl font-extrabold mb-2"><span className="text-gradient">Analytics</span></h1>
-        <p className="text-muted">Visualize your giveaway performance metrics</p>
+      <div className="flex flex-col gap-2 mb-4 relative z-10">
+        <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60 drop-shadow-sm tracking-tight">Analytics</h1>
+        <p className="text-muted-foreground text-lg max-w-2xl">Visualize your giveaway performance metrics</p>
       </div>
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="card-surface p-5">
+        <div className="card-surface p-5 hover:bg-muted/60 transition-colors">
           <div className="flex items-center gap-2 mb-2">
-            <Users size={16} className="text-sky-500" />
-            <p className="text-xs text-muted font-medium">Total Entries</p>
+            <Users size={16} className="text-primary" />
+            <p className="text-sm text-muted-foreground font-medium">Total Entries</p>
           </div>
-          <p className="text-2xl font-extrabold text-slate-900 dark:text-white">
+          <p className="text-2xl font-bold text-foreground">
             {analytics.totalEntries.toLocaleString()}
           </p>
         </div>
 
-        <div className="card-surface p-5">
+        <div className="card-surface p-5 hover:bg-muted/60 transition-colors">
           <div className="flex items-center gap-2 mb-2">
-            <Gift size={16} className="text-sky-500" />
-            <p className="text-xs text-muted font-medium">Total Winners</p>
+            <Gift size={16} className="text-chart-2" />
+            <p className="text-sm text-muted-foreground font-medium">Total Winners</p>
           </div>
-          <p className="text-2xl font-extrabold text-slate-900 dark:text-white">
+          <p className="text-2xl font-bold text-foreground">
             {analytics.totalWinners.toLocaleString()}
           </p>
         </div>
 
-        <div className="card-surface p-5">
+        <div className="card-surface p-5 hover:bg-muted/60 transition-colors">
           <div className="flex items-center gap-2 mb-2">
-            <TrendingUp size={16} className="text-sky-500" />
-            <p className="text-xs text-muted font-medium">Conversion Rate</p>
+            <TrendingUp size={16} className="text-chart-3" />
+            <p className="text-sm text-muted-foreground font-medium">Conversion Rate</p>
           </div>
-          <p className="text-2xl font-extrabold text-slate-900 dark:text-white">
+          <p className="text-2xl font-bold text-foreground">
             {analytics.conversionRate}%
           </p>
         </div>
 
-        <div className="card-surface p-5">
+        <div className="card-surface p-5 hover:bg-muted/60 transition-colors">
           <div className="flex items-center gap-2 mb-2">
-            <Globe size={16} className="text-sky-500" />
-            <p className="text-xs text-muted font-medium">Countries</p>
+            <Globe size={16} className="text-chart-4" />
+            <p className="text-sm text-muted-foreground font-medium">Countries</p>
           </div>
-          <p className="text-2xl font-extrabold text-slate-900 dark:text-white">
+          <p className="text-2xl font-bold text-foreground">
             {analytics.countriesCount}
           </p>
         </div>
@@ -79,7 +79,7 @@ export default async function AnalyticsPage() {
                     className="flex-1 flex flex-col items-center gap-2 group cursor-pointer"
                   >
                     <div
-                      className="w-full rounded-t-lg bg-gradient-to-t from-sky-500 to-emerald-400 hover:from-sky-400 hover:to-emerald-300 transition-all group-hover:opacity-100"
+                      className="w-full rounded-t-lg bg-gradient-to-t from-primary/80 to-primary/40 hover:from-primary hover:to-primary/60 transition-all group-hover:opacity-100"
                       style={{ height: `${Math.max(height, 2)}%` }}
                       title={`${data.date}: ${data.entries} entries`}
                     />
@@ -115,13 +115,13 @@ export default async function AnalyticsPage() {
                     <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
                       {giveaway.name}
                     </p>
-                    <span className="text-xs text-sky-600 dark:text-sky-400 font-semibold">
+                    <span className="text-xs text-primary font-semibold">
                       {giveaway.entries}
                     </span>
                   </div>
                   <div className="w-full card-inset rounded-full h-2 overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-sky-500 to-emerald-500 rounded-full transition-all"
+                      className="h-full bg-gradient-to-r from-primary to-primary/60 rounded-full transition-all"
                       style={{ width: `${percentage}%` }}
                     />
                   </div>
@@ -143,19 +143,19 @@ export default async function AnalyticsPage() {
           {analytics.countryData.map((country) => (
             <div
               key={country.country}
-              className="card-inset p-4 hover:border-sky-400/50 transition-colors cursor-pointer"
+              className="card-inset p-4 hover:border-primary/50 transition-colors cursor-pointer"
             >
-              <p className="text-sm font-semibold text-slate-900 dark:text-white mb-2">{country.country}</p>
-              <p className="text-2xl font-extrabold text-gradient mb-1">
+              <p className="text-sm font-semibold text-foreground mb-2">{country.country}</p>
+              <p className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-foreground to-foreground/80 mb-1">
                 {country.entries.toLocaleString()}
               </p>
-              <div className="w-full bg-slate-200 dark:bg-white/10 rounded-full h-1.5 overflow-hidden">
+              <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-sky-500 to-emerald-500"
+                  className="h-full bg-gradient-to-r from-primary to-primary/60"
                   style={{ width: `${country.percentage}%` }}
                 />
               </div>
-              <p className="text-xs text-muted mt-2">{country.percentage}% of total</p>
+              <p className="text-xs text-muted-foreground mt-2">{country.percentage}% of total</p>
             </div>
           ))}
         </div>

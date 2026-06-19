@@ -39,26 +39,26 @@ export function Sidebar({ email = '' }: SidebarProps) {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-4 left-4 z-50 md:hidden p-2 rounded-xl bg-white/80 text-slate-700 border border-slate-200 shadow-sm backdrop-blur hover:text-sky-600 transition-colors dark:bg-slate-900/70 dark:text-slate-200 dark:border-white/10"
+        className="fixed top-4 left-4 z-50 md:hidden p-2 rounded-lg bg-card text-foreground border border-border shadow-sm backdrop-blur hover:text-primary transition-colors"
       >
         {isOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 h-screen w-64 bg-white/70 dark:bg-slate-950/60 backdrop-blur-xl border-r border-slate-200/70 dark:border-white/10 flex flex-col transition-transform duration-300 md:translate-x-0 z-40 ${
+        className={`fixed left-0 top-0 h-screen w-64 bg-sidebar backdrop-blur-3xl border-r border-sidebar-border shadow-2xl flex flex-col transition-transform duration-300 md:translate-x-0 z-40 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Logo */}
-        <div className="p-6 border-b border-slate-200/70 dark:border-white/10">
+        <div className="p-6 border-b border-sidebar-border/50">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-sky-500 to-emerald-500 flex items-center justify-center text-white font-bold shadow-lg shadow-sky-500/30">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-primary-foreground font-bold shadow-lg shadow-primary/30">
               YT
             </div>
             <div>
-              <h1 className="text-sm font-extrabold text-gradient">YoungTrader</h1>
-              <p className="text-xs text-muted">Giveaway Manager</p>
+              <h1 className="text-sm font-semibold text-sidebar-foreground">YoungTrader</h1>
+              <p className="text-xs text-muted-foreground">Giveaway Manager</p>
             </div>
           </div>
         </div>
@@ -75,13 +75,13 @@ export function Sidebar({ email = '' }: SidebarProps) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className={`group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                className={`group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                   isActive
-                    ? 'bg-gradient-to-r from-sky-500 to-emerald-500 text-white font-semibold shadow-lg shadow-sky-500/25'
-                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-white/5'
+                    ? 'bg-primary text-primary-foreground font-medium shadow-md shadow-primary/25 translate-x-1'
+                    : 'text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 hover:backdrop-blur-sm'
                 }`}
               >
-                <Icon size={20} className={isActive ? '' : 'group-hover:scale-110 transition-transform'} />
+                <Icon size={20} className={isActive ? '' : 'group-hover:scale-110 transition-transform duration-300'} />
                 <span>{item.label}</span>
               </Link>
             )
@@ -89,22 +89,22 @@ export function Sidebar({ email = '' }: SidebarProps) {
         </nav>
 
         {/* User Profile & Logout */}
-        <div className="p-4 border-t border-slate-200/70 dark:border-white/10 space-y-3">
-          <div className="flex items-center gap-3 px-3 py-3 rounded-xl card-inset">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-sky-500 to-emerald-500 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-sky-500/30">
+        <div className="p-4 border-t border-sidebar-border/50 space-y-3">
+          <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-sidebar-accent/30 border border-sidebar-border/50 backdrop-blur-md">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-primary/80 flex items-center justify-center text-primary-foreground font-bold text-sm shadow-md shadow-primary/20">
               {initials}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">Admin</p>
-              <p className="text-xs text-muted truncate">{email || 'Not signed in'}</p>
+              <p className="text-sm font-medium text-sidebar-foreground truncate">Admin</p>
+              <p className="text-xs text-sidebar-foreground/60 truncate">{email || 'Not signed in'}</p>
             </div>
           </div>
           <button
             onClick={handleLogout}
             disabled={isPending}
-            className="w-full flex items-center gap-2 px-4 py-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-rose-500/10 transition-colors text-sm font-medium disabled:opacity-50"
+            className="w-full flex items-center gap-2 px-4 py-2.5 rounded-xl text-sidebar-foreground/70 hover:text-destructive hover:bg-destructive/15 hover:shadow-sm transition-all duration-300 text-sm font-medium disabled:opacity-50"
           >
-            {isPending ? <Loader2 size={16} className="animate-spin" /> : <LogOut size={16} />}
+            {isPending ? <Loader2 size={16} className="animate-spin" /> : <LogOut size={16} className="group-hover:-translate-x-1 transition-transform" />}
             <span>{isPending ? 'Signing out…' : 'Logout'}</span>
           </button>
         </div>
@@ -113,7 +113,7 @@ export function Sidebar({ email = '' }: SidebarProps) {
       {/* Mobile Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-30 md:hidden"
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-30 md:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}

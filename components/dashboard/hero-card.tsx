@@ -8,57 +8,54 @@ interface HeroCardProps {
 
 export function HeroCard({ giveaway }: HeroCardProps) {
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-500 via-cyan-500 to-emerald-500 p-8 shadow-xl shadow-sky-500/20">
-      {/* Decorative blobs */}
-      <div className="pointer-events-none absolute -top-24 -right-16 h-72 w-72 rounded-full bg-white/20 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-24 -left-10 h-72 w-72 rounded-full bg-emerald-300/30 blur-3xl" />
-
-      <div className="relative space-y-6">
+    <div className="card-surface p-8 relative overflow-hidden group">
+      <div className="absolute -top-32 -right-32 w-96 h-96 bg-primary/20 rounded-full blur-3xl group-hover:bg-primary/30 transition-all duration-700 mix-blend-screen pointer-events-none"></div>
+      <div className="space-y-6 relative z-10">
         {/* Header */}
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-3 flex-wrap">
-              <h2 className="text-3xl font-extrabold text-white drop-shadow-sm">{giveaway.name}</h2>
-              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white border border-white/30 backdrop-blur">
+              <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70 tracking-tight">{giveaway.name}</h2>
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-primary/15 text-primary border border-primary/30 shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)] backdrop-blur-md uppercase tracking-wider">
                 {giveaway.status}
               </span>
             </div>
-            <p className="text-white/85 max-w-2xl">{giveaway.description}</p>
+            <p className="text-muted-foreground max-w-2xl">{giveaway.description}</p>
           </div>
         </div>
 
         {/* Prize Section */}
-        <div className="bg-white/15 border border-white/30 rounded-2xl p-4 backdrop-blur">
-          <p className="text-xs font-semibold text-white/80 uppercase tracking-wider mb-1">
-            Prize
+        <div className="card-inset p-5 border-primary/20 shadow-[inset_0_0_20px_rgba(var(--primary-rgb),0.05)]">
+          <p className="text-xs font-bold text-primary uppercase tracking-widest mb-1.5">
+            Grand Prize
           </p>
-          <p className="text-2xl font-bold text-white">{giveaway.prize}</p>
+          <p className="text-2xl font-bold text-foreground">{giveaway.prize}</p>
         </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white/15 rounded-2xl p-4 border border-white/25 backdrop-blur">
+          <div className="card-inset p-5 hover:bg-muted/60 transition-colors">
             <div className="flex items-center gap-2 mb-2">
-              <Users size={16} className="text-white/80" />
-              <span className="text-xs text-white/80 font-medium">Total Entries</span>
+              <Users size={18} className="text-chart-1" />
+              <span className="text-sm text-muted-foreground font-medium">Total Entries</span>
             </div>
-            <p className="text-2xl font-bold text-white">{giveaway.totalEntries.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-foreground">{giveaway.totalEntries.toLocaleString()}</p>
           </div>
 
-          <div className="bg-white/15 rounded-2xl p-4 border border-white/25 backdrop-blur">
+          <div className="card-inset p-5 hover:bg-muted/60 transition-colors">
             <div className="flex items-center gap-2 mb-2">
-              <Trophy size={16} className="text-white/80" />
-              <span className="text-xs text-white/80 font-medium">Winners</span>
+              <Trophy size={18} className="text-chart-5" />
+              <span className="text-sm text-muted-foreground font-medium">Winners</span>
             </div>
-            <p className="text-2xl font-bold text-white">{giveaway.winners}</p>
+            <p className="text-2xl font-bold text-foreground">{giveaway.winners}</p>
           </div>
 
-          <div className="bg-white/15 rounded-2xl p-4 border border-white/25 backdrop-blur">
+          <div className="card-inset p-5 hover:bg-muted/60 transition-colors">
             <div className="flex items-center gap-2 mb-2">
-              <Calendar size={16} className="text-white/80" />
-              <span className="text-xs text-white/80 font-medium">Ends</span>
+              <Calendar size={18} className="text-primary" />
+              <span className="text-sm text-muted-foreground font-medium">Ends</span>
             </div>
-            <p className="text-lg font-bold text-white">
+            <p className="text-xl font-bold text-foreground">
               {giveaway.endDate.toLocaleDateString()}
             </p>
           </div>
@@ -68,7 +65,7 @@ export function HeroCard({ giveaway }: HeroCardProps) {
         <div className="flex flex-wrap gap-3 pt-2">
           <Link
             href="/giveaways/create"
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white text-sky-600 font-semibold hover:bg-white/90 transition-colors shadow-lg shadow-black/10"
+            className="btn-primary"
           >
             <span>New Giveaway</span>
             <ArrowRight size={16} />
@@ -76,14 +73,14 @@ export function HeroCard({ giveaway }: HeroCardProps) {
 
           <Link
             href="/entries"
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white/15 text-white font-semibold border border-white/30 hover:bg-white/25 transition-colors backdrop-blur"
+            className="btn-ghost"
           >
             View Entries
           </Link>
 
           <Link
             href="/draw-winners"
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white/15 text-white font-semibold border border-white/30 hover:bg-white/25 transition-colors backdrop-blur"
+            className="btn-ghost"
           >
             Draw Winners
           </Link>

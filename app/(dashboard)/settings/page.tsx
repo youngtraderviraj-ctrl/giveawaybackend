@@ -42,9 +42,9 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div>
-        <h1 className="text-4xl font-extrabold mb-2"><span className="text-gradient">Settings</span></h1>
-        <p className="text-muted">Configure your platform and security settings</p>
+      <div className="flex flex-col gap-2 mb-4 relative z-10">
+        <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60 drop-shadow-sm tracking-tight">Settings</h1>
+        <p className="text-muted-foreground text-lg max-w-2xl">Configure your platform and security settings</p>
       </div>
 
       {/* Success Message */}
@@ -56,9 +56,10 @@ export default function SettingsPage() {
 
       <div className="max-w-3xl space-y-6">
         {/* General Settings */}
-        <div className="card-surface p-6">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-            <Bell size={20} className="text-sky-500" />
+        <div className="card-surface p-6 border-primary/10 shadow-[0_4px_30px_rgba(0,0,0,0.02)] relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none"></div>
+          <h3 className="text-lg font-bold text-foreground mb-6 flex items-center gap-2 relative z-10">
+            <Bell size={20} className="text-primary" />
             General Settings
           </h3>
 
@@ -82,16 +83,16 @@ export default function SettingsPage() {
             </div>
 
             <div className="space-y-3">
-              <label className="flex items-center gap-3 p-4 card-inset cursor-pointer hover:border-sky-400/50 transition-colors">
+              <label className="flex items-center gap-3 p-4 card-inset cursor-pointer hover:border-primary/50 hover:bg-muted/60 transition-colors">
                 <input
                   type="checkbox"
                   checked={settings.emailNotifications}
                   onChange={() => handleToggle('emailNotifications')}
-                  className="w-4 h-4 rounded border-slate-300 accent-sky-500"
+                  className="w-4 h-4 rounded border-border accent-primary focus:ring-primary/20"
                 />
                 <div>
-                  <p className="font-semibold text-slate-900 dark:text-white">Email Notifications</p>
-                  <p className="text-xs text-muted">
+                  <p className="font-semibold text-foreground">Email Notifications</p>
+                  <p className="text-xs text-muted-foreground">
                     Receive email updates about giveaway activity
                   </p>
                 </div>
@@ -101,69 +102,70 @@ export default function SettingsPage() {
         </div>
 
         {/* Giveaway Rules */}
-        <div className="card-surface p-6">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-            <Shield size={20} className="text-sky-500" />
+        <div className="card-surface p-6 border-primary/10 shadow-[0_4px_30px_rgba(0,0,0,0.02)] relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-chart-2/5 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none"></div>
+          <h3 className="text-lg font-bold text-foreground mb-6 flex items-center gap-2 relative z-10">
+            <Shield size={20} className="text-chart-2" />
             Giveaway Rules
           </h3>
 
-          <div className="space-y-4">
-            <label className="flex items-start gap-3 p-4 card-inset cursor-pointer hover:border-sky-400/50 transition-colors">
+          <div className="space-y-4 relative z-10">
+            <label className="flex items-start gap-3 p-4 card-inset cursor-pointer hover:border-primary/50 hover:bg-muted/60 transition-colors">
               <input
                 type="checkbox"
                 checked={settings.duplicateEmailPrevention}
                 onChange={() => handleToggle('duplicateEmailPrevention')}
-                className="w-4 h-4 rounded border-slate-300 accent-sky-500 mt-1 flex-shrink-0"
+                className="w-4 h-4 rounded border-border accent-primary focus:ring-primary/20 mt-1 flex-shrink-0"
               />
               <div>
-                <p className="font-semibold text-slate-900 dark:text-white">Duplicate Email Prevention</p>
-                <p className="text-xs text-muted mt-1">
+                <p className="font-semibold text-foreground">Duplicate Email Prevention</p>
+                <p className="text-xs text-muted-foreground mt-1">
                   Prevent participants from entering with the same email address across
                   giveaways
                 </p>
               </div>
             </label>
 
-            <label className="flex items-start gap-3 p-4 card-inset cursor-pointer hover:border-sky-400/50 transition-colors">
+            <label className="flex items-start gap-3 p-4 card-inset cursor-pointer hover:border-primary/50 hover:bg-muted/60 transition-colors">
               <input
                 type="checkbox"
                 checked={settings.duplicatePhonePrevention}
                 onChange={() => handleToggle('duplicatePhonePrevention')}
-                className="w-4 h-4 rounded border-slate-300 accent-sky-500 mt-1 flex-shrink-0"
+                className="w-4 h-4 rounded border-border accent-primary focus:ring-primary/20 mt-1 flex-shrink-0"
               />
               <div>
-                <p className="font-semibold text-slate-900 dark:text-white">Duplicate Phone Prevention</p>
-                <p className="text-xs text-muted mt-1">
+                <p className="font-semibold text-foreground">Duplicate Phone Prevention</p>
+                <p className="text-xs text-muted-foreground mt-1">
                   Prevent participants from entering with the same phone number
                 </p>
               </div>
             </label>
 
-            <label className="flex items-start gap-3 p-4 card-inset cursor-pointer hover:border-sky-400/50 transition-colors">
+            <label className="flex items-start gap-3 p-4 card-inset cursor-pointer hover:border-primary/50 hover:bg-muted/60 transition-colors">
               <input
                 type="checkbox"
                 checked={settings.lifetimeWinnerRestriction}
                 onChange={() => handleToggle('lifetimeWinnerRestriction')}
-                className="w-4 h-4 rounded border-slate-300 accent-sky-500 mt-1 flex-shrink-0"
+                className="w-4 h-4 rounded border-border accent-primary focus:ring-primary/20 mt-1 flex-shrink-0"
               />
               <div>
-                <p className="font-semibold text-slate-900 dark:text-white">Lifetime Winner Restriction</p>
-                <p className="text-xs text-muted mt-1">
+                <p className="font-semibold text-foreground">Lifetime Winner Restriction</p>
+                <p className="text-xs text-muted-foreground mt-1">
                   Winners cannot participate in future giveaways
                 </p>
               </div>
             </label>
 
-            <label className="flex items-start gap-3 p-4 card-inset cursor-pointer hover:border-sky-400/50 transition-colors">
+            <label className="flex items-start gap-3 p-4 card-inset cursor-pointer hover:border-primary/50 hover:bg-muted/60 transition-colors">
               <input
                 type="checkbox"
                 checked={settings.ipTrackingProtection}
                 onChange={() => handleToggle('ipTrackingProtection')}
-                className="w-4 h-4 rounded border-slate-300 accent-sky-500 mt-1 flex-shrink-0"
+                className="w-4 h-4 rounded border-border accent-primary focus:ring-primary/20 mt-1 flex-shrink-0"
               />
               <div>
-                <p className="font-semibold text-slate-900 dark:text-white">IP Tracking Protection</p>
-                <p className="text-xs text-muted mt-1">
+                <p className="font-semibold text-foreground">IP Tracking Protection</p>
+                <p className="text-xs text-muted-foreground mt-1">
                   Prevent multiple entries from the same IP address
                 </p>
               </div>
@@ -172,23 +174,24 @@ export default function SettingsPage() {
         </div>
 
         {/* Security Settings */}
-        <div className="card-surface p-6">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-            <Shield size={20} className="text-sky-500" />
+        <div className="card-surface p-6 border-primary/10 shadow-[0_4px_30px_rgba(0,0,0,0.02)] relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-chart-1/5 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none"></div>
+          <h3 className="text-lg font-bold text-foreground mb-6 flex items-center gap-2 relative z-10">
+            <Shield size={20} className="text-chart-1" />
             Security
           </h3>
 
-          <div className="space-y-4">
-            <label className="flex items-center gap-3 p-4 card-inset cursor-pointer hover:border-sky-400/50 transition-colors">
+          <div className="space-y-4 relative z-10">
+            <label className="flex items-center gap-3 p-4 card-inset cursor-pointer hover:border-primary/50 hover:bg-muted/60 transition-colors">
               <input
                 type="checkbox"
                 checked={settings.twoFactorAuth}
                 onChange={() => handleToggle('twoFactorAuth')}
-                className="w-4 h-4 rounded border-slate-300 accent-sky-500"
+                className="w-4 h-4 rounded border-border accent-primary focus:ring-primary/20"
               />
               <div>
-                <p className="font-semibold text-slate-900 dark:text-white">Two-Factor Authentication</p>
-                <p className="text-xs text-muted">
+                <p className="font-semibold text-foreground">Two-Factor Authentication</p>
+                <p className="text-xs text-muted-foreground">
                   Enable 2FA for added account security
                 </p>
               </div>
@@ -209,17 +212,17 @@ export default function SettingsPage() {
         </div>
 
         {/* Danger Zone */}
-        <div className="rounded-2xl bg-rose-500/10 border border-rose-500/20 p-6">
-          <h3 className="text-lg font-bold text-rose-500 mb-4 flex items-center gap-2">
+        <div className="rounded-2xl bg-destructive/10 border border-destructive/20 p-6 backdrop-blur-md">
+          <h3 className="text-lg font-bold text-destructive mb-4 flex items-center gap-2">
             <AlertCircle size={20} />
             Danger Zone
           </h3>
 
           <div className="space-y-3">
-            <button className="w-full px-6 py-2.5 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-300 border border-rose-500/30 font-medium hover:bg-rose-500/25 transition-colors text-sm">
+            <button className="w-full px-6 py-2.5 rounded-xl bg-destructive/15 text-destructive border border-destructive/30 font-medium hover:bg-destructive/25 hover:shadow-sm transition-all duration-300 text-sm">
               Reset All Data
             </button>
-            <button className="w-full px-6 py-2.5 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-300 border border-rose-500/30 font-medium hover:bg-rose-500/25 transition-colors text-sm">
+            <button className="w-full px-6 py-2.5 rounded-xl bg-destructive/15 text-destructive border border-destructive/30 font-medium hover:bg-destructive/25 hover:shadow-sm transition-all duration-300 text-sm">
               Delete Platform
             </button>
           </div>

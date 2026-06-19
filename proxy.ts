@@ -30,9 +30,16 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  let user = null
+  try {
+    const result = await supabase.auth.getUser()
+    user = result.data.user
+  } catch {
+    // Supabase was briefly unreachable (e.g. ConnectTimeoutError).
+    // Don't crash the request; treat as unauthenticated and let the
+    // redirect logic below send protected routes to /login.
+    user = null
+  }
 
   const { pathname } = request.nextUrl
 
