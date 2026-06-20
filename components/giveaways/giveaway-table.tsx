@@ -5,6 +5,7 @@ import { Trash2, Play, Square, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { setGiveawayStatus, deleteGiveaway } from '@/app/(dashboard)/giveaways/actions'
+import { formatDate } from '@/lib/utils'
 
 interface GiveawayTableProps {
   giveaways: Giveaway[]
@@ -99,10 +100,10 @@ export function GiveawayTable({ giveaways }: GiveawayTableProps) {
                 <td className="px-6 py-4">
                   <div className="flex flex-col gap-1 text-sm">
                     <p className="text-slate-700 dark:text-slate-200">
-                      {new Date(giveaway.startDate).toLocaleDateString()}
+                      {formatDate(giveaway.startDate)}
                     </p>
                     <p className="text-faint">
-                      to {new Date(giveaway.endDate).toLocaleDateString()}
+                      to {formatDate(giveaway.endDate)}
                     </p>
                   </div>
                 </td>

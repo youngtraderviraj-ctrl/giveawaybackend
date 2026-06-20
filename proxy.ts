@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 // Paths that do NOT require authentication.
-const PUBLIC_PATHS = ['/login', '/giveaway', '/api/entries']
+const PUBLIC_PATHS = ['/login', '/giveaway', '/api/entries', '/api/winners']
 
 function isPublic(pathname: string) {
   return PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`))
@@ -30,21 +30,25 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  let user = null
+  // Use getClaims() instead of getUser(): when the project uses asymmetric
+  // JWT signing keys, the token is verified LOCALLY with no network call,
+  // so middleware no longer adds a Supabase round-trip (and timeout risk)
+  // to every request. Falls back to no-session on any failure.
+  let authenticated = false
   try {
-    const result = await supabase.auth.getUser()
-    user = result.data.user
+    const { data } = await supabase.auth.getClaims()
+    authenticated = !!data?.claims
   } catch {
     // Supabase was briefly unreachable (e.g. ConnectTimeoutError).
     // Don't crash the request; treat as unauthenticated and let the
     // redirect logic below send protected routes to /login.
-    user = null
+    authenticated = false
   }
 
   const { pathname } = request.nextUrl
 
   // Unauthenticated user hitting a protected route → send to /login
-  if (!user && !isPublic(pathname)) {
+  if (!authenticated && !isPublic(pathname)) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     url.searchParams.set('redirect', pathname)
@@ -52,7 +56,7 @@ export async function proxy(request: NextRequest) {
   }
 
   // Authenticated user hitting /login → send to dashboard
-  if (user && pathname === '/login') {
+  if (authenticated && pathname === '/login') {
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
     url.search = ''

@@ -1,10 +1,11 @@
 'use client'
 
 import { Entry } from '@/lib/types'
-import { Trash2, Check, X, Loader2 } from 'lucide-react'
+import { Trash2, Check, X, Loader2, Eye, EyeOff } from 'lucide-react'
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { setEntryVerified, deleteEntry } from '@/app/(dashboard)/entries/actions'
+import { formatDate } from '@/lib/utils'
 
 interface EntriesTableProps {
   entries: Entry[]
@@ -15,6 +16,7 @@ export function EntriesTable({ entries }: EntriesTableProps) {
   const [isPending, startTransition] = useTransition()
   const [busyId, setBusyId] = useState<string | null>(null)
   const [selectedEntries, setSelectedEntries] = useState<string[]>([])
+  const [showSensitive, setShowSensitive] = useState(false)
 
   const toggleVerified = (entry: Entry) => {
     setBusyId(entry.id)
@@ -51,21 +53,36 @@ export function EntriesTable({ entries }: EntriesTableProps) {
 
   return (
     <div className="card-surface overflow-hidden">
-      {selectedEntries.length > 0 && (
-        <div className="bg-primary/10 border-b border-primary/20 px-6 py-3 flex items-center justify-between">
+      <div className="flex items-center justify-between px-6 py-3 border-b border-border">
+        {selectedEntries.length > 0 ? (
           <span className="text-sm text-primary font-medium">
             {selectedEntries.length} selected
           </span>
-          <div className="flex gap-3">
-            <button className="px-3 py-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors">
-              Export
-            </button>
-            <button className="px-3 py-1 text-xs font-medium text-destructive hover:text-destructive/80 transition-colors">
-              Delete
-            </button>
-          </div>
+        ) : (
+          <span className="text-sm text-muted-foreground">
+            {entries.length} entries
+          </span>
+        )}
+        <div className="flex gap-3">
+          <button
+            onClick={() => setShowSensitive(!showSensitive)}
+            className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          >
+            {showSensitive ? <EyeOff size={14} /> : <Eye size={14} />}
+            {showSensitive ? 'Hide Sensitive' : 'Show Sensitive'}
+          </button>
+          {selectedEntries.length > 0 && (
+            <>
+              <button className="px-3 py-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors">
+                Export
+              </button>
+              <button className="px-3 py-1 text-xs font-medium text-destructive hover:text-destructive/80 transition-colors">
+                Delete
+              </button>
+            </>
+          )}
         </div>
-      )}
+      </div>
 
       <div className="overflow-x-auto">
         <table className="w-full">
@@ -86,19 +103,19 @@ export function EntriesTable({ entries }: EntriesTableProps) {
                 Email
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                Phone
+                WhatsApp
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                Country
+                Broker
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                MT5 ID / Account ID
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Entry Date
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Verified
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                Source
               </th>
               <th className="px-6 py-4 text-center text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Actions
@@ -125,17 +142,26 @@ export function EntriesTable({ entries }: EntriesTableProps) {
                   <p className="text-sm font-medium text-foreground">{entry.name}</p>
                 </td>
                 <td className="px-6 py-4">
-                  <p className="text-sm text-muted-foreground">{entry.email}</p>
+                  <p className="text-sm text-muted-foreground">{showSensitive ? entry.email : '***@***.***'}</p>
                 </td>
                 <td className="px-6 py-4">
-                  <p className="text-sm text-muted-foreground">{entry.phone}</p>
+                  <p className="text-sm text-muted-foreground">{showSensitive ? entry.whatsappNumber : '—'}</p>
                 </td>
                 <td className="px-6 py-4">
-                  <p className="text-sm text-foreground">{entry.country}</p>
+                  {entry.broker ? (
+                    <span className="inline-block px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                      {entry.broker}
+                    </span>
+                  ) : (
+                    <span className="text-sm text-muted-foreground">—</span>
+                  )}
+                </td>
+                <td className="px-6 py-4">
+                  <p className="text-sm text-foreground font-mono">{showSensitive ? entry.accountId || '—' : '—'}</p>
                 </td>
                 <td className="px-6 py-4">
                   <p className="text-sm text-muted-foreground">
-                    {new Date(entry.entryDate).toLocaleDateString()}
+                    {formatDate(entry.entryDate)}
                   </p>
                 </td>
                 <td className="px-6 py-4">
@@ -159,11 +185,6 @@ export function EntriesTable({ entries }: EntriesTableProps) {
                       </span>
                     )}
                   </button>
-                </td>
-                <td className="px-6 py-4">
-                  <span className="inline-block px-2.5 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground">
-                    {entry.source}
-                  </span>
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center justify-center gap-2">

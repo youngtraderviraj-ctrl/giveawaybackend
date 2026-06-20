@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Loader2, CheckCircle2, Gift } from 'lucide-react'
+import { BROKERS } from '@/lib/types'
 
 interface EntryFormProps {
   giveawayId: string
@@ -13,10 +14,12 @@ type Status = 'idle' | 'submitting' | 'success' | 'error'
 export function EntryForm({ giveawayId, prize }: EntryFormProps) {
   const [status, setStatus] = useState<Status>('idle')
   const [message, setMessage] = useState('')
-  const [form, setForm] = useState({ name: '', email: '', phone: '', country: '' })
+  const [form, setForm] = useState({ name: '', email: '', whatsappNumber: '', broker: '', accountId: '' })
 
-  const update = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
-    setForm((f) => ({ ...f, [key]: e.target.value }))
+  const update =
+    (key: keyof typeof form) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+      setForm((f) => ({ ...f, [key]: e.target.value }))
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -77,14 +80,28 @@ export function EntryForm({ giveawayId, prize }: EntryFormProps) {
         <input className="input-field" type="email" required value={form.email} onChange={update('email')} placeholder="you@email.com" />
       </div>
 
+      <div>
+        <label className="block text-sm font-medium text-foreground mb-1.5">WhatsApp number</label>
+        <input className="input-field" required value={form.whatsappNumber} onChange={update('whatsappNumber')} placeholder="+91…" />
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-foreground mb-1.5">Phone (optional)</label>
-          <input className="input-field" value={form.phone} onChange={update('phone')} placeholder="+91…" />
+          <label className="block text-sm font-medium text-foreground mb-1.5">Broker</label>
+          <select className="input-field" required value={form.broker} onChange={update('broker')}>
+            <option value="" disabled>
+              Select your broker
+            </option>
+            {BROKERS.map((b) => (
+              <option key={b} value={b}>
+                {b}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-foreground mb-1.5">Country (optional)</label>
-          <input className="input-field" value={form.country} onChange={update('country')} placeholder="India" />
+          <label className="block text-sm font-medium text-foreground mb-1.5">MT5 ID / Account ID</label>
+          <input className="input-field" required value={form.accountId} onChange={update('accountId')} placeholder="e.g. 1234567" />
         </div>
       </div>
 

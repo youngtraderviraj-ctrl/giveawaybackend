@@ -13,7 +13,7 @@ interface FormData {
   banner: File | null
   winners: number
   multipleEntries: boolean
-  emailVerificationRequired: boolean
+  brokerVerificationRequired: boolean
   lifetimeWinnerRestriction: boolean
   startDate: string
   startTime: string
@@ -33,7 +33,7 @@ export default function CreateGiveawayPage() {
     banner: null,
     winners: 1,
     multipleEntries: true,
-    emailVerificationRequired: true,
+    brokerVerificationRequired: true,
     lifetimeWinnerRestriction: true,
     startDate: '',
     startTime: '',
@@ -72,7 +72,7 @@ export default function CreateGiveawayPage() {
         description: formData.description,
         winners: formData.winners,
         multipleEntries: formData.multipleEntries,
-        emailVerificationRequired: formData.emailVerificationRequired,
+        brokerVerificationRequired: formData.brokerVerificationRequired,
         lifetimeWinnerRestriction: formData.lifetimeWinnerRestriction,
         startDate: toIso(formData.startDate, formData.startTime),
         endDate: toIso(formData.endDate, formData.endTime),
@@ -226,16 +226,16 @@ export default function CreateGiveawayPage() {
                 <label className="flex items-start gap-3 p-4 card-inset cursor-pointer hover:border-chart-2/50 hover:bg-chart-2/5 transition-all">
                   <input
                     type="checkbox"
-                    checked={formData.emailVerificationRequired}
+                    checked={formData.brokerVerificationRequired}
                     onChange={(e) =>
-                      handleInputChange('emailVerificationRequired', e.target.checked)
+                      handleInputChange('brokerVerificationRequired', e.target.checked)
                     }
                     className="w-5 h-5 mt-0.5 rounded border-border accent-chart-2 focus:ring-chart-2/20"
                   />
                   <div>
-                    <p className="font-semibold text-foreground">Require Email Verification</p>
+                    <p className="font-semibold text-foreground">Require Broker Verification</p>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Participants must verify their email
+                      Participants must have verified broker account
                     </p>
                   </div>
                 </label>

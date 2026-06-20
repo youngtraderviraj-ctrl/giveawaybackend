@@ -32,8 +32,9 @@ export interface EntryRow {
   giveaway_id: string
   name: string
   email: string
-  phone: string | null
-  country: string | null
+  whatsapp_number: string | null
+  broker: string | null
+  account_id: string | null
   is_verified: boolean
   source: string | null
   created_at: string
@@ -68,7 +69,7 @@ export function mapGiveaway(r: GiveawayRow, totalEntries = 0): Giveaway {
     updatedAt: new Date(r.updated_at),
     rules: {
       multipleEntries: r.multiple_entries,
-      emailVerificationRequired: r.email_verification,
+      brokerVerificationRequired: r.email_verification,
       lifetimeWinnerRestriction: r.lifetime_winner_restrict,
     },
   }
@@ -79,8 +80,9 @@ export function mapEntry(r: EntryRow): Entry {
     id: r.id,
     name: r.name,
     email: r.email,
-    phone: r.phone ?? '',
-    country: r.country ?? '',
+    whatsappNumber: r.whatsapp_number ?? '',
+    broker: (r.broker as Entry['broker']) ?? '',
+    accountId: r.account_id ?? '',
     giveawayId: r.giveaway_id,
     entryDate: new Date(r.created_at),
     isVerified: r.is_verified,
@@ -88,14 +90,19 @@ export function mapEntry(r: EntryRow): Entry {
   }
 }
 
-export function mapWinner(r: WinnerRow, name = '', country = ''): Winner {
+export function mapWinner(
+  r: WinnerRow,
+  entry: { name?: string; whatsapp_number?: string | null; broker?: string | null; account_id?: string | null } = {}
+): Winner {
   return {
     id: r.id,
     entryId: r.entry_id,
     giveawayId: r.giveaway_id,
-    name,
+    name: entry.name ?? '',
     email: r.email,
-    country,
+    whatsappNumber: entry.whatsapp_number ?? '',
+    broker: (entry.broker as Winner['broker']) ?? '',
+    accountId: entry.account_id ?? '',
     prize: r.prize ?? '',
     wonDate: new Date(r.won_at),
     status: r.status,
@@ -136,12 +143,13 @@ export async function getWinners(): Promise<Winner[]> {
   const supabase = supabaseAdmin()
   const { data, error } = await supabase
     .from('winners')
-    .select('*, entries(name, country)')
+    .select('*, entries(name, whatsapp_number, broker, account_id)')
     .order('won_at', { ascending: false })
   if (error) throw new Error(error.message)
-  return (data as (WinnerRow & { entries: { name: string; country: string } | null })[]).map((w) =>
-    mapWinner(w, w.entries?.name ?? '', w.entries?.country ?? '')
-  )
+  type WinnerJoin = WinnerRow & {
+    entries: { name: string; whatsapp_number: string | null; broker: string | null; account_id: string | null } | null
+  }
+  return (data as WinnerJoin[]).map((w) => mapWinner(w, w.entries ?? {}))
 }
 
 export async function getStats(): Promise<DashboardStats> {
@@ -215,17 +223,17 @@ export interface AnalyticsData {
   totalEntries: number
   totalWinners: number
   conversionRate: number
-  countriesCount: number
+  brokersCount: number
   dailyEntries: { date: string; entries: number }[]
   giveawayPerformance: { name: string; entries: number }[]
-  countryData: { country: string; entries: number; percentage: number }[]
+  brokerData: { broker: string; entries: number; percentage: number }[]
   sources: { source: string; entries: number }[]
 }
 
 export async function getAnalytics(days = 14): Promise<AnalyticsData> {
   const supabase = supabaseAdmin()
   const [entriesRes, giveawaysRes, winnersRes] = await Promise.all([
-    supabase.from('entries').select('country, source, created_at, giveaway_id'),
+    supabase.from('entries').select('broker, source, created_at, giveaway_id'),
     supabase.from('giveaways').select('id, name'),
     supabase.from('winners').select('id', { count: 'exact', head: true }),
   ])
@@ -261,21 +269,21 @@ export async function getAnalytics(days = 14): Promise<AnalyticsData> {
     .map(([id, count]) => ({ name: nameById.get(id) ?? 'Unknown', entries: count }))
     .sort((a, b) => b.entries - a.entries)
 
-  // Country distribution.
-  const perCountry = new Map<string, number>()
+  // Broker distribution.
+  const perBroker = new Map<string, number>()
   for (const e of entries) {
-    const c = e.country?.trim() || 'Unknown'
-    perCountry.set(c, (perCountry.get(c) ?? 0) + 1)
+    const b = e.broker?.trim() || 'Unknown'
+    perBroker.set(b, (perBroker.get(b) ?? 0) + 1)
   }
-  const countryData = [...perCountry.entries()]
-    .map(([country, count]) => ({
-      country,
+  const brokerData = [...perBroker.entries()]
+    .map(([broker, count]) => ({
+      broker,
       entries: count,
       percentage: totalEntries > 0 ? Math.round((count / totalEntries) * 100) : 0,
     }))
     .sort((a, b) => b.entries - a.entries)
     .slice(0, 8)
-  const countriesCount = perCountry.size
+  const brokersCount = perBroker.size
 
   // Traffic sources.
   const perSource = new Map<string, number>()
@@ -291,10 +299,10 @@ export async function getAnalytics(days = 14): Promise<AnalyticsData> {
     totalEntries,
     totalWinners,
     conversionRate,
-    countriesCount,
+    brokersCount,
     dailyEntries,
     giveawayPerformance,
-    countryData,
+    brokerData,
     sources,
   }
 }

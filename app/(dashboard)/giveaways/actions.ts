@@ -10,7 +10,7 @@ export interface CreateGiveawayInput {
   description: string
   winners: number
   multipleEntries: boolean
-  emailVerificationRequired: boolean
+  brokerVerificationRequired: boolean
   lifetimeWinnerRestriction: boolean
   startDate: string // ISO or empty
   endDate: string // ISO or empty
@@ -49,7 +49,7 @@ export async function createGiveaway(input: CreateGiveawayInput, banner?: File |
       end_date: input.endDate || null,
       status: input.status,
       multiple_entries: input.multipleEntries,
-      email_verification: input.emailVerificationRequired,
+      email_verification: input.brokerVerificationRequired,
       lifetime_winner_restrict: input.lifetimeWinnerRestriction,
     })
     .select('id')

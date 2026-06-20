@@ -54,10 +54,10 @@ export default async function AnalyticsPage() {
         <div className="card-surface p-5 hover:bg-muted/60 transition-colors">
           <div className="flex items-center gap-2 mb-2">
             <Globe size={16} className="text-chart-4" />
-            <p className="text-sm text-muted-foreground font-medium">Countries</p>
+            <p className="text-sm text-muted-foreground font-medium">Brokers</p>
           </div>
           <p className="text-2xl font-bold text-foreground">
-            {analytics.countriesCount}
+            {analytics.brokersCount}
           </p>
         </div>
       </div>
@@ -132,30 +132,30 @@ export default async function AnalyticsPage() {
         </div>
       </div>
 
-      {/* Geographic Distribution */}
+      {/* Broker Distribution */}
       <div className="card-surface p-6">
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6">Geographic Distribution</h3>
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6">Broker Distribution</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {analytics.countryData.length === 0 && (
+          {analytics.brokerData.length === 0 && (
             <p className="text-sm text-muted">No entries yet.</p>
           )}
-          {analytics.countryData.map((country) => (
+          {analytics.brokerData.map((broker) => (
             <div
-              key={country.country}
+              key={broker.broker}
               className="card-inset p-4 hover:border-primary/50 transition-colors cursor-pointer"
             >
-              <p className="text-sm font-semibold text-foreground mb-2">{country.country}</p>
+              <p className="text-sm font-semibold text-foreground mb-2">{broker.broker}</p>
               <p className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-foreground to-foreground/80 mb-1">
-                {country.entries.toLocaleString()}
+                {broker.entries.toLocaleString()}
               </p>
               <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-primary to-primary/60"
-                  style={{ width: `${country.percentage}%` }}
+                  style={{ width: `${broker.percentage}%` }}
                 />
               </div>
-              <p className="text-xs text-muted-foreground mt-2">{country.percentage}% of total</p>
+              <p className="text-xs text-muted-foreground mt-2">{broker.percentage}% of total</p>
             </div>
           ))}
         </div>

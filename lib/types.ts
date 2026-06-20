@@ -2,6 +2,9 @@ export type GiveawayStatus = 'Draft' | 'Scheduled' | 'Live' | 'Closed'
 export type WinnerStatus = 'Pending' | 'Contacted' | 'Claimed' | 'Unclaimed'
 export type ActivityType = 'GiveawayCreated' | 'GiveawayEnded' | 'WinnersDrawn' | 'EntryReceived'
 
+export const BROKERS = ['XM', 'Xellion', 'Exness', 'Delta Exchange', 'Dhan'] as const
+export type Broker = (typeof BROKERS)[number]
+
 export interface Giveaway {
   id: string
   name: string
@@ -17,7 +20,7 @@ export interface Giveaway {
   updatedAt: Date
   rules?: {
     multipleEntries: boolean
-    emailVerificationRequired: boolean
+    brokerVerificationRequired: boolean
     lifetimeWinnerRestriction: boolean
   }
 }
@@ -26,8 +29,9 @@ export interface Entry {
   id: string
   name: string
   email: string
-  phone: string
-  country: string
+  whatsappNumber: string
+  broker: Broker | ''
+  accountId: string
   giveawayId: string
   entryDate: Date
   isVerified: boolean
@@ -40,7 +44,9 @@ export interface Winner {
   giveawayId: string
   name: string
   email: string
-  country: string
+  whatsappNumber: string
+  broker: Broker | ''
+  accountId: string
   prize: string
   wonDate: Date
   status: WinnerStatus
