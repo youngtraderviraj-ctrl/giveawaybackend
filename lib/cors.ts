@@ -1,24 +1,9 @@
 // Shared CORS helper for the public API routes.
-//
-// Production origin is controlled by ALLOWED_ORIGIN (defaults to "*").
-//
-// TEMPORARY LOCALHOST ACCESS:
-//   Localhost origins (http://localhost:* / http://127.0.0.1:*) are reflected
-//   automatically so you can test the embed widget locally.
-//   To TURN IT OFF, set this in your env:  ENABLE_LOCALHOST_CORS=false
-const PROD_ORIGIN = process.env.ALLOWED_ORIGIN ?? '*'
-const LOCALHOST_ENABLED = process.env.ENABLE_LOCALHOST_CORS !== 'false'
-const LOCALHOST_REGEX = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/
-
-export function corsHeaders(req: Request, methods = 'GET, POST, OPTIONS') {
-  const origin = req.headers.get('origin') ?? ''
-  const allowOrigin =
-    LOCALHOST_ENABLED && LOCALHOST_REGEX.test(origin) ? origin : PROD_ORIGIN
-
+// CORS is disabled — the public API can be called from any origin.
+export function corsHeaders(_req: Request, methods = 'GET, POST, OPTIONS') {
   return {
-    'Access-Control-Allow-Origin': allowOrigin,
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': methods,
-    'Access-Control-Allow-Headers': 'Content-Type',
-    Vary: 'Origin',
+    'Access-Control-Allow-Headers': '*',
   }
 }

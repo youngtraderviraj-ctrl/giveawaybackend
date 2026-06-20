@@ -56,8 +56,21 @@ export async function POST(req: Request) {
   let { giveawayId } = parsed.data
   const supabase = supabaseServerAnon()
 
-  // If no giveawayId is provided, submit to the current Live giveaway.
-  if (!giveawayId) {
+  // Resolve the target giveaway. If an ID is provided, it must be Live.
+  if (giveawayId) {
+    const { data: target } = await supabase
+      .from('giveaways')
+      .select('id, status')
+      .eq('id', giveawayId)
+      .maybeSingle()
+    if (!target) {
+      return json(req, { error: 'Giveaway not found.' }, 404)
+    }
+    if (target.status !== 'Live') {
+      return json(req, { error: 'Entries are currently closed for this giveaway.' }, 403)
+    }
+  } else {
+    // If no giveawayId is provided, submit to the current Live giveaway.
     const { data: active } = await supabase
       .from('giveaways')
       .select('id')
