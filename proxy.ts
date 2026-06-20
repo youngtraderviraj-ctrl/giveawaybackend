@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 // Paths that do NOT require authentication.
-const PUBLIC_PATHS = ['/login', '/giveaway', '/api/entries', '/api/winners']
+const PUBLIC_PATHS = ['/login', '/giveaway', '/api/entries', '/api/winners', '/api/verify-xm']
 
 function isPublic(pathname: string) {
   return PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`))
