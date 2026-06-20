@@ -27,6 +27,21 @@ export function EntryForm({ giveawayId, prize }: EntryFormProps) {
     setMessage('')
 
     try {
+      // XM accounts must be verified before the entry is accepted.
+      if (form.broker === 'XM') {
+        const verifyRes = await fetch('/api/verify-xm', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ accountId: form.accountId, email: form.email }),
+        })
+        const verifyData = await verifyRes.json()
+        if (!verifyRes.ok || !verifyData.verified) {
+          setStatus('error')
+          setMessage(verifyData.error ?? 'XM account verification failed.')
+          return
+        }
+      }
+
       const res = await fetch('/api/entries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

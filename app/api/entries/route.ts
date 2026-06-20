@@ -91,6 +91,7 @@ export async function POST(req: Request) {
     whatsapp_number: whatsappNumber,
     broker,
     account_id: accountId,
+    is_verified: broker === 'XM',
   })
 
   if (error) {
